@@ -9,7 +9,7 @@ abstract class NewsRepository {
 class NewsRepositoryImp implements NewsRepository{
   @override
   Future<TeslaNews> getTeslaNews() async{
-    var response = await http.get(Uri.parse("https://newsapi.org/v2/everything?q=tesla&from=2022-03-30&sortBy=publishedAt&apiKey=e2d02348965a4648b2b432e8831b0c85"),);
+    var response = await http.get(Uri.parse("https://newsapi.org/v2/everything?q=Russia&from=2022-03-30&sortBy=publishedAt&apiKey=e2d02348965a4648b2b432e8831b0c85"),);
     if(response.statusCode == 200){
       var data = jsonDecode(response.body);
       TeslaNews results = TeslaNews.fromJson(data);

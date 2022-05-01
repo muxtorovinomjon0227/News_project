@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_project/src/data/models/tesla_news_model.dart';
 import 'package:news_project/src/presentation/blocs/news_bloc.dart';
 import 'package:news_project/src/ui/drawer/draver_page.dart';
-
+import 'package:news_project/src/ui/more_news/teslaNews/tesla_more_news.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -19,17 +19,15 @@ class _HomePageState extends State<HomePage> {
     context.read<NewsBloc>().add(FetchTeslaNewsEvent());
 
     return Scaffold(
-        drawer: Drawer(
+        drawer: const Drawer(
           child: DrawerPage(),
         ),
         appBar: AppBar(
-          actions: [
-            Icon(Icons.search)
-          ],
+          actions:  [IconButton(onPressed: (){}, icon: Icon(Icons.search),iconSize: 35,)],
           iconTheme: Theme.of(context).iconTheme.copyWith(
-            color: Colors.white,
-          ),
-          title: Text("Movie App"),
+                color: Colors.white,
+              ),
+          title: Text("News App"),
         ),
         body: BlocConsumer<NewsBloc, NewsState>(
           listener: (context, state) {
@@ -65,11 +63,7 @@ class _HomePageState extends State<HomePage> {
         itemBuilder: (BuildContext context, int index) {
           return Column(
             children: [
-              Container(
-                color: Colors.white,
-                width: double.infinity,
-                height: 2,
-              ),
+              SizedBox(height: 3),
               Container(
                 child: Container(
                   width: double.infinity,
@@ -84,33 +78,76 @@ class _HomePageState extends State<HomePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            width: 100,
+                            width: 170,
                             height: 150,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
                               color: Colors.redAccent,
                             ),
                             child: Image.network(
-                                  results.articles![index].urlToImage
-                                      .toString(),
+                              results.articles![index].urlToImage.toString(),
                               fit: BoxFit.cover,
                             ),
                           ),
                           SizedBox(width: 8),
                           Expanded(
-                            child: Text(
-                              results.articles![index].title.toString(),
-                              style: TextStyle(fontSize: 18),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  results.articles![index].title.toString(),
+                                  style: const TextStyle(fontSize: 18),
+                                ),
+                                SizedBox(height: 5),
+                                Row(
+                                  children: [
+                                    Text(
+                                        results.articles![index].publishedAt
+                                            .toString()
+                                            .substring(0, 10),
+                                        style: TextStyle(
+                                            color: Colors.blue, fontSize: 18)),
+                                    SizedBox(width: 10),
+                                    Text(
+                                        results.articles![index].publishedAt
+                                            .toString()
+                                            .substring(11, 16),
+                                        style: TextStyle(
+                                            color: Colors.blue, fontSize: 18)),
+                                  ],
+                                ),
+                                ElevatedButton(
+                                  onPressed: () { Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const TeslaMoreNews()),
+                                  );
+                                    },
+                                  child: Text(
+                                    "more...",
+                                  ),
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(Colors.blue),
+                                      padding: MaterialStateProperty.all(
+                                          const EdgeInsets.all(1)),
+                                      textStyle: MaterialStateProperty.all(
+                                          const TextStyle(fontSize: 18))),
+                                ),
+                              ],
                             ),
                           ),
-                          Text(results.articles![index].title!),
-
                         ],
                       ),
-
                     ],
                   ),
                 ),
+              ),
+              SizedBox(height: 3),
+              Container(
+                color: Colors.black,
+                width: double.infinity,
+                height: 2,
               ),
             ],
           );
@@ -120,8 +157,8 @@ class _HomePageState extends State<HomePage> {
   Widget buildError(String error) {
     return Center(
         child: Text(
-          error,
-          style: const TextStyle(fontSize: 24),
-        ));
+      error,
+      style: const TextStyle(fontSize: 24),
+    ));
   }
 }

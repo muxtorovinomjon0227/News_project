@@ -1,22 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_project/src/data/models/tesla_news_model.dart';
-import 'package:news_project/src/presentation/blocs/news_bloc.dart';
 import 'package:news_project/src/ui/drawer/draver_page.dart';
-import 'package:news_project/src/ui/more_news/teslaNews/tesla_more_news.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+import '../../data/models/currency_news_model.dart';
+import '../../presentation/blocs/currencyNewsBloc/currency_news_bloc.dart';
+import '../more_news/teslaNewsMore/tesla_more_news.dart';
+
+
+class CurrencyNewsPage extends StatefulWidget {
+  const CurrencyNewsPage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<CurrencyNewsPage> createState() => _CurrencyNewsPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _CurrencyNewsPageState extends State<CurrencyNewsPage> {
   @override
   Widget build(BuildContext context) {
-    context.read<NewsBloc>().add(FetchTeslaNewsEvent());
+    context.read<CurrencyNewsBloc>().add(FetchCurrencyNewsEvent());
 
     return Scaffold(
         drawer: const Drawer(
@@ -25,25 +27,25 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           actions:  [IconButton(onPressed: (){}, icon: Icon(Icons.search),iconSize: 35,)],
           iconTheme: Theme.of(context).iconTheme.copyWith(
-                color: Colors.white,
-              ),
+            color: Colors.white,
+          ),
           title: Text("News App"),
         ),
-        body: BlocConsumer<NewsBloc, NewsState>(
+        body: BlocConsumer<CurrencyNewsBloc, CurrencyNewsState>(
           listener: (context, state) {
             // Navigator.
           },
           builder: (context, state) {
-            if (state is NewsInitialState) {
+            if (state is CurrencyNewsInitialState) {
               return buildLoading();
             }
-            if (state is NewsLodingState) {
+            if (state is CurrencyNewsLodingState) {
               return buildLoading();
             }
-            if (state is NewsLodedState) {
-              return buildUI(state.results);
+            if (state is CurrencyNewsLodedState) {
+              return buildUI(state.result);
             }
-            if (state is NewsErrorState) {
+            if (state is CurrencyNewsErrorState) {
               return buildError(state.message);
             }
             return Container(
@@ -57,9 +59,9 @@ class _HomePageState extends State<HomePage> {
     return const Center(child: CircularProgressIndicator());
   }
 
-  Widget buildUI(TeslaNews results) {
+  Widget buildUI(List<CurrencyNews> result) {
     return ListView.builder(
-        itemCount: results.articles!.length,
+        itemCount: result.length,
         itemBuilder: (BuildContext context, int index) {
           return Column(
             children: [
@@ -77,44 +79,31 @@ class _HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            width: 170,
-                            height: 150,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: Colors.redAccent,
-                            ),
-                            child: Image.network(
-                              results.articles![index].urlToImage.toString(),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          SizedBox(width: 8),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  results.articles![index].title.toString(),
+                                  result[index].date.toString(),
                                   style: const TextStyle(fontSize: 18),
                                 ),
                                 SizedBox(height: 5),
                                 Row(
                                   children: [
-                                    Text(
-                                        results.articles![index].publishedAt
-                                            .toString()
-                                            .substring(0, 10),
-                                        style: TextStyle(
-                                            color: Colors.blue, fontSize: 18)),
-                                    SizedBox(width: 10),
-                                    Text(
-                                        results.articles![index].publishedAt
-                                            .toString()
-                                            .substring(11, 16),
-                                        style: TextStyle(
-                                            color: Colors.blue, fontSize: 18)),
+                                    // Text(
+                                    //     results.articles![index].publishedAt
+                                    //         .toString()
+                                    //         .substring(0, 10),
+                                    //     style: TextStyle(
+                                    //         color: Colors.blue, fontSize: 18)),
+                                    // SizedBox(width: 10),
+                                    // Text(
+                                    //     results.articles![index].publishedAt
+                                    //         .toString()
+                                    //         .substring(11, 16),
+                                    //     style: TextStyle(
+                                    //         color: Colors.blue, fontSize: 18)),
                                   ],
                                 ),
                                 ElevatedButton(
@@ -122,13 +111,13 @@ class _HomePageState extends State<HomePage> {
                                     context,
                                     MaterialPageRoute(builder: (context) => const TeslaMoreNews()),
                                   );
-                                    },
+                                  },
                                   child: Text(
                                     "more...",
                                   ),
                                   style: ButtonStyle(
                                       backgroundColor:
-                                          MaterialStateProperty.all(Colors.blue),
+                                      MaterialStateProperty.all(Colors.blue),
                                       padding: MaterialStateProperty.all(
                                           const EdgeInsets.all(1)),
                                       textStyle: MaterialStateProperty.all(
@@ -157,8 +146,9 @@ class _HomePageState extends State<HomePage> {
   Widget buildError(String error) {
     return Center(
         child: Text(
-      error,
-      style: const TextStyle(fontSize: 24),
-    ));
+          error,
+          style: const TextStyle(fontSize: 24),
+        ));
   }
 }
+

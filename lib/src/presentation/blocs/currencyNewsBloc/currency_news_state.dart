@@ -18,7 +18,7 @@ class CurrencyNewsLodingState extends CurrencyNewsState {
 
 
 class  CurrencyNewsLodedState extends CurrencyNewsState{
-  List<CurrencyNews> result;
+  CurrencyNews result;
   CurrencyNewsLodedState(this.result);
 
   @override

@@ -8,11 +8,11 @@ class CurrencyNews {
 
   CurrencyNews(
       {this.title,
-        this.code,
-        this.cbPrice,
-        this.nbuBuyPrice,
-        this.nbuCellPrice,
-        this.date});
+      this.code,
+      this.cbPrice,
+      this.nbuBuyPrice,
+      this.nbuCellPrice,
+      this.date});
 
   CurrencyNews.fromJson(Map<String, dynamic> json) {
     title = json['title'];
@@ -33,4 +33,14 @@ class CurrencyNews {
     data['date'] = this.date;
     return data;
   }
+
+ //  List<CurrencyNews> currencyNews = data.map((item) => CurrencyNews(
+ //  item['title'].toString(),
+ //  item['code'].toString(),
+ //  item['cb_price'].toString(),
+ //  item['nbu_buy_price'].toString(),
+ //  item['nbu_cell_price'].toString(),
+ //  item['date'].toString(),
+ // )).toList();
+
 }

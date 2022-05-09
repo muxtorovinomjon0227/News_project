@@ -17,7 +17,7 @@ class CurrencyNewsBloc extends Bloc<CurrencyNewsEvent, CurrencyNewsState> {
   CurrencyNewsBloc(this.repository) : super(CurrencyNewsInitialState()) {
     on<CurrencyNewsEvent>((event, emit) async {
       try {
-        List<CurrencyNews> result = (await repository.getCurrencyNews());
+        CurrencyNews result = (await repository.getCurrencyNews());
         emit(CurrencyNewsLodedState(result));
       } catch (e) {
         emit(CurrencyNewsErrorState(e.toString()));

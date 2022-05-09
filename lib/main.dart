@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_project/src/data/repositores/currency_news_repo.dart';
 import 'package:news_project/src/data/repositores/news_repo.dart';
-import 'package:news_project/src/ui/basic_page.dart';
-import 'package:news_project/src/ui/currencyNews/currncy_news_page.dart';
 import 'package:news_project/src/presentation/blocs/currencyNewsBloc/currency_news_bloc.dart';
 import 'package:news_project/src/presentation/blocs/news_bloc.dart';
-import 'package:news_project/src/ui/teslaNews/home_page.dart';
+import 'package:news_project/src/ui/home_page.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -22,9 +21,9 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return MaterialApp(
       theme: ThemeData(fontFamily: "prozalibre"),
-      home:  MultiBlocProvider(
+      home: MultiBlocProvider(
         providers: [
           BlocProvider(
             create: (_) => NewsBloc(NewsRepositoryImp()),
@@ -33,49 +32,51 @@ class _MyAppState extends State<MyApp> {
             create: (_) => CurrencyNewsBloc(CurrencyNewsRepositoryImp()),
           ),
         ],
-        child:  Scaffold(
-          body: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Colors.teal,Colors.deepOrangeAccent,Colors.greenAccent,Colors.amberAccent,Colors.purpleAccent,Colors.lightGreen]
-              ),
-            ),
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(height: 100),
+        child: const MainlyPage(),
 
-
-                  const  Text("Assalomu alaykum! \n"
-                      "Bizning Yangliklar Ilovamizga \n"
-                      "xush kelipsiz!",style: TextStyle(fontSize: 20,color: Colors.white)),
-                  SizedBox(height: 10),
-                  const  Text("Siz bu yerda o'zingizni \n"
-                      "qiziqtirgan yangliklardan \n"
-                      "habardor bolishizngiz mumkin\n"
-                      "pastda o'zingizga kerakli bo'lgan\n"
-                      "bo'limni tanlang ",style: TextStyle(fontSize: 20,color: Colors.white)),
-
-
-                  SizedBox(height: 40),
-                  Center(
-                    child: ElevatedButton(onPressed: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) =>  const CurrencyNewsPage()),
-                      );
-
-                    }, child: const Text("Go to Apple news"),),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
+        // Scaffold(
+        //   body: Container(
+        //     decoration: const BoxDecoration(
+        //       gradient: LinearGradient(
+        //           begin: Alignment.topLeft,
+        //           end: Alignment.bottomRight,
+        //           colors: [Colors.teal,Colors.deepOrangeAccent,Colors.greenAccent,Colors.amberAccent,Colors.purpleAccent,Colors.lightGreen]
+        //       ),
+        //     ),
+        //     child: Center(
+        //       child: Column(
+        //         crossAxisAlignment: CrossAxisAlignment.center,
+        //         mainAxisAlignment: MainAxisAlignment.start,
+        //         children: [
+        //           SizedBox(height: 100),
+        //
+        //
+        //           const  Text("Assalomu alaykum! \n"
+        //               "Bizning Yangliklar Ilovamizga \n"
+        //               "xush kelipsiz!",style: TextStyle(fontSize: 20,color: Colors.white)),
+        //           SizedBox(height: 10),
+        //           const  Text("Siz bu yerda o'zingizni \n"
+        //               "qiziqtirgan yangliklardan \n"
+        //               "habardor bolishizngiz mumkin\n"
+        //               "pastda o'zingizga kerakli bo'lgan\n"
+        //               "bo'limni tanlang ",style: TextStyle(fontSize: 20,color: Colors.white)),
+        //
+        //
+        //           SizedBox(height: 40),
+        //           Center(
+        //             child: ElevatedButton(onPressed: (){
+        //               Navigator.push(
+        //                 context,
+        //                 MaterialPageRoute(builder: (context) =>  const CurrencyNewsPage()),
+        //               );
+        //
+        //             }, child: const Text("Go to Apple news"),),
+        //           ),
+        //         ],
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ),
     );
   }

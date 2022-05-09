@@ -15,7 +15,6 @@ class NewsRepositoryImp implements NewsRepository{
       TeslaNews results = TeslaNews.fromJson(data);
       return results;
     }
-
     throw UnimplementedError();
   }
   

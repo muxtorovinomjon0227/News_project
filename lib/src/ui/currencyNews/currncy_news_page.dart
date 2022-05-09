@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_project/src/ui/drawer/draver_page.dart';
 
 import '../../data/models/currency_news_model.dart';
 import '../../presentation/blocs/currencyNewsBloc/currency_news_bloc.dart';
-import '../more_news/teslaNewsMore/tesla_more_news.dart';
 
 
 class CurrencyNewsPage extends StatefulWidget {
@@ -21,16 +19,6 @@ class _CurrencyNewsPageState extends State<CurrencyNewsPage> {
     context.read<CurrencyNewsBloc>().add(FetchCurrencyNewsEvent());
 
     return Scaffold(
-        drawer: const Drawer(
-          child: DrawerPage(),
-        ),
-        appBar: AppBar(
-          actions:  [IconButton(onPressed: (){}, icon: Icon(Icons.search),iconSize: 35,)],
-          iconTheme: Theme.of(context).iconTheme.copyWith(
-            color: Colors.white,
-          ),
-          title: Text("News App"),
-        ),
         body: BlocConsumer<CurrencyNewsBloc, CurrencyNewsState>(
           listener: (context, state) {
             // Navigator.
@@ -59,9 +47,9 @@ class _CurrencyNewsPageState extends State<CurrencyNewsPage> {
     return const Center(child: CircularProgressIndicator());
   }
 
-  Widget buildUI(List<CurrencyNews> result) {
+  Widget buildUI(CurrencyNews result) {
     return ListView.builder(
-        itemCount: result.length,
+        itemCount: 2,
         itemBuilder: (BuildContext context, int index) {
           return Column(
             children: [
@@ -85,7 +73,7 @@ class _CurrencyNewsPageState extends State<CurrencyNewsPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  result[index].date.toString(),
+                                  result.date.toString(),
                                   style: const TextStyle(fontSize: 18),
                                 ),
                                 SizedBox(height: 5),
@@ -107,10 +95,8 @@ class _CurrencyNewsPageState extends State<CurrencyNewsPage> {
                                   ],
                                 ),
                                 ElevatedButton(
-                                  onPressed: () { Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => const TeslaMoreNews()),
-                                  );
+                                  onPressed: () {
+
                                   },
                                   child: Text(
                                     "more...",

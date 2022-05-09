@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_project/src/data/models/tesla_news_model.dart';
 import 'package:news_project/src/presentation/blocs/news_bloc.dart';
-import 'package:news_project/src/ui/drawer/draver_page.dart';
+import 'package:news_project/src/ui/more_news/tesla_news_more_page.dart';
 
-import '../more_news/teslaNewsMore/tesla_more_news.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -15,21 +14,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  bool _isItemSelected = false;
+  int _selectedItemIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     context.read<NewsBloc>().add(FetchTeslaNewsEvent());
 
     return Scaffold(
-        drawer: const Drawer(
-          child: DrawerPage(),
-        ),
-        appBar: AppBar(
-          actions:  [IconButton(onPressed: (){}, icon: Icon(Icons.search),iconSize: 35,)],
-          iconTheme: Theme.of(context).iconTheme.copyWith(
-                color: Colors.white,
-              ),
-          title: Text("News App"),
-        ),
         body: BlocConsumer<NewsBloc, NewsState>(
           listener: (context, state) {
             // Navigator.
@@ -59,7 +52,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget buildUI(TeslaNews results) {
-    return ListView.builder(
+    return _isItemSelected
+      ? TeslaNewsMorePage(_selectedItemIndex)
+        :ListView.builder(
         itemCount: results.articles!.length,
         itemBuilder: (BuildContext context, int index) {
           return Column(
@@ -120,10 +115,11 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 ElevatedButton(
                                   onPressed: () {
-                                    Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => const TeslaMoreNews()),
-                                  );
+                                    setState(() {
+                                      _isItemSelected = true;
+
+                                      _selectedItemIndex = index;
+                                    });
                                     },
                                   child: Text(
                                     "more...",

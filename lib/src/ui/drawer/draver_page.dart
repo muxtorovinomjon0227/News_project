@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:news_project/src/ui/teslaNews/home_page.dart';
+
+import '../teslaNews/tesla_news_page.dart';
 
 
 class DrawerPage extends StatelessWidget {

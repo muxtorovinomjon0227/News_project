@@ -34,13 +34,6 @@ class CurrencyNews {
     return data;
   }
 
- //  List<CurrencyNews> currencyNews = data.map((item) => CurrencyNews(
- //  item['title'].toString(),
- //  item['code'].toString(),
- //  item['cb_price'].toString(),
- //  item['nbu_buy_price'].toString(),
- //  item['nbu_cell_price'].toString(),
- //  item['date'].toString(),
- // )).toList();
+
 
 }

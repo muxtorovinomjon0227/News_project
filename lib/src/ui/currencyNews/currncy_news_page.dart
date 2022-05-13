@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_project/src/ui/widgets/get_flag.dart';
 
 import '../../data/models/currency_news_model.dart';
 import '../../presentation/blocs/currencyNewsBloc/currency_news_bloc.dart';
@@ -47,86 +48,65 @@ class _CurrencyNewsPageState extends State<CurrencyNewsPage> {
     return const Center(child: CircularProgressIndicator());
   }
 
-  Widget buildUI(CurrencyNews result) {
+  Widget buildUI(List<CurrencyNews> result) {
     return ListView.builder(
-        itemCount: 2,
+        itemCount: result.length,
         itemBuilder: (BuildContext context, int index) {
-          return Column(
-            children: [
-              SizedBox(height: 3),
-              Container(
-                child: Container(
-                  width: double.infinity,
-                  height: 150,
-                  decoration: BoxDecoration(
-                      color: Color(0xffF8F8FF),
-                      borderRadius: BorderRadius.circular(25)),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  result.date.toString(),
-                                  style: const TextStyle(fontSize: 18),
-                                ),
-                                SizedBox(height: 5),
-                                Row(
-                                  children: [
-                                    // Text(
-                                    //     results.articles![index].publishedAt
-                                    //         .toString()
-                                    //         .substring(0, 10),
-                                    //     style: TextStyle(
-                                    //         color: Colors.blue, fontSize: 18)),
-                                    // SizedBox(width: 10),
-                                    // Text(
-                                    //     results.articles![index].publishedAt
-                                    //         .toString()
-                                    //         .substring(11, 16),
-                                    //     style: TextStyle(
-                                    //         color: Colors.blue, fontSize: 18)),
-                                  ],
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {
-
-                                  },
-                                  child: Text(
-                                    "more...",
-                                  ),
-                                  style: ButtonStyle(
-                                      backgroundColor:
-                                      MaterialStateProperty.all(Colors.blue),
-                                      padding: MaterialStateProperty.all(
-                                          const EdgeInsets.all(1)),
-                                      textStyle: MaterialStateProperty.all(
-                                          const TextStyle(fontSize: 18))),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 3),
-              Container(
-                color: Colors.black,
+          return  Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Card(
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              child: Container(
+                padding: EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 10),
                 width: double.infinity,
-                height: 2,
+                height: 150,
+                 child: Column(
+                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                   children: [
+                     Row(
+                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                       children: [
+                         Row(
+                           children: [
+                             Image.asset(getFlags(result, index),height:45,width: 50),
+                             SizedBox(width: 20),
+                             Text(result[index].title.toString()),
+                           ],
+                         ),
+                         Icon(Icons.add_alert,color: Colors.black26),
+                       ],
+                     ),
+                     Row(
+                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                       children: [
+                         Column(
+                           children: [
+                             Text("MB kursi"),
+                             Text(result[index].cbPrice.toString())
+                           ],
+                         ),
+                         Column(
+                           children: [
+                             Text("Sotib olish"),
+                             Text(result[index].cbPrice.toString())
+                           ],
+                         ),
+                         Column(
+                           children: [
+                             Text("Sotish"),
+                             Text(result[index].cbPrice.toString())
+                           ],
+                         ),
+
+                       ],
+                     ),
+                   ],
+                 ),
               ),
-            ],
+            ),
           );
-        });
+        },
+    );
   }
 
   Widget buildError(String error) {

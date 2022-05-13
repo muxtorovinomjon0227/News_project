@@ -15,8 +15,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  bool _isItemSelected = false;
-  int _selectedItemIndex = 0;
+  Articles _selectedArticlas = Articles();
 
   @override
   Widget build(BuildContext context) {
@@ -52,20 +51,17 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget buildUI(TeslaNews results) {
-    return _isItemSelected
-      ? TeslaNewsMorePage(_selectedItemIndex)
-        :ListView.builder(
+    return ListView.builder(
         itemCount: results.articles!.length,
         itemBuilder: (BuildContext context, int index) {
           return Column(
             children: [
-              SizedBox(height: 3),
-              Container(
-                child: Container(
+               const SizedBox(height: 3),
+                Container(
                   width: double.infinity,
                   height: 150,
                   decoration: BoxDecoration(
-                      color: Color(0xffF8F8FF),
+                      color: const Color(0xffF8F8FF),
                       borderRadius: BorderRadius.circular(25)),
                   child: Column(
                     children: [
@@ -85,7 +81,7 @@ class _HomePageState extends State<HomePage> {
                               fit: BoxFit.cover,
                             ),
                           ),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,26 +98,25 @@ class _HomePageState extends State<HomePage> {
                                         results.articles![index].publishedAt
                                             .toString()
                                             .substring(0, 10),
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: Colors.blue, fontSize: 18)),
-                                    SizedBox(width: 10),
+                                     const SizedBox(width: 10),
                                     Text(
                                         results.articles![index].publishedAt
                                             .toString()
                                             .substring(11, 16),
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: Colors.blue, fontSize: 18)),
                                   ],
                                 ),
                                 ElevatedButton(
                                   onPressed: () {
                                     setState(() {
-                                      _isItemSelected = true;
-
-                                      _selectedItemIndex = index;
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => TeslaNewsMorePage(_selectedArticlas)));
+                                      _selectedArticlas=results.articles![index];
                                     });
                                     },
-                                  child: Text(
+                                  child:   const  Text(
                                     "more...",
                                   ),
                                   style: ButtonStyle(
@@ -140,8 +135,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-              ),
-              SizedBox(height: 3),
+             const SizedBox(height: 3),
               Container(
                 color: Colors.black,
                 width: double.infinity,

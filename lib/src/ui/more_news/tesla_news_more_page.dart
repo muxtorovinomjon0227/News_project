@@ -1,96 +1,108 @@
 import 'package:flutter/material.dart';
+import 'package:news_project/src/data/models/tesla_news_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 
 class TeslaNewsMorePage extends StatelessWidget {
-  final int selectedItemIndex;
+  final Articles _articles;
   int count = 0;
+  final Uri _url = Uri.parse("https://www.engadget.com/beats-fit-pro-studio-buds-airpods-sale-131544330.html");
 
-  TeslaNewsMorePage(this.selectedItemIndex, {Key? key}) : super(key: key);
+  TeslaNewsMorePage(this._articles, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      decoration: const BoxDecoration(
-        color: Colors.indigo,
-        image: DecorationImage(
-          fit: BoxFit.cover,
-          image: AssetImage('assets/images/backgroundImage.png'),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: buildText(_articles),
       ),
-      // child: details(TeslaNews[selectedItemIndex]),
+      body:  Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: AssetImage('assets/images/backgroundImage.png'),
+          ),
+        ),
+        child: Center(child: details(_articles)),
+      ),
     );
   }
-//
-//
-//   Widget details(TeslaNews  results) {
-//     return Padding(
-//       padding: const EdgeInsets.only(left: 12, right: 12),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           const SizedBox(height: 140),
-//           Text(
-//             results.articles![0].author!,
-//             style: TextStyle(
-//               fontSize: 26,
-//               fontWeight: FontWeight.w700,
-//             ),
-//           ),
-//           const SizedBox(height: 16),
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             children: [
-//               Row(
-//                 children: [
-//                   Image.asset(
-//                     'assets/icons/ic_oven.png',
-//                     height: 20,
-//                     width: 20,
-//                   ),
-//                   const SizedBox(width: 4),
-//                   Text(
-//                     results.status.toString(),
-//                     style: const TextStyle(
-//                         color: Color(0xff52616B), fontWeight: FontWeight.w600),
-//                   ),
-//                 ],
-//               ),
-//               Row(
-//                 children: [
-//                   Image.asset(
-//                     'assets/icons/ic_fire.png',
-//                     height: 20,
-//                     width: 20,
-//                   ),
-//                   const SizedBox(width: 4),
-//                   Text(
-//                     results.status.toString(),
-//                     style: TextStyle(
-//                         color: Color(0xff52616B), fontWeight: FontWeight.w600),
-//                   ),
-//                 ],
-//               ),
-//               Row(
-//                 children: [
-//                   Image.asset(
-//                     'assets/icons/ic_call.png',
-//                     height: 20,
-//                     width: 20,
-//                   ),
-//                   const SizedBox(width: 4),
-//                   Text(
-//                     '438 кал',
-//                     style: TextStyle(
-//                         color: Color(0xff52616B), fontWeight: FontWeight.w600),
-//                   ),
-//                 ],
-//               ),
-//             ],
-//       ),
-//     ),
-//     );
-//   }
+
+
+  Widget details(Articles  results) {
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Image.network(results.urlToImage.toString()),
+          Padding(
+            padding: EdgeInsets.all(10),
+              child: Row(
+                children: [
+                  Text(
+
+                      results.publishedAt
+                          .toString()
+                          .substring(0, 10),
+                      style: const TextStyle(
+                          color: Colors.blue, fontSize: 18)),
+                  const SizedBox(width: 10),
+                  Text(
+                      results.publishedAt
+                          .toString()
+                          .substring(11, 16),
+                      style: const TextStyle(
+                          color: Colors.blue, fontSize: 18)),
+                ],
+              ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                SizedBox(height: 10),
+
+                Text(
+                  results.title.toString(),style: TextStyle(fontSize: 18),
+                ),
+                SizedBox(height: 10),
+
+                Text(
+                  results.description.toString(),style: TextStyle(fontSize: 18),
+                ),
+                SizedBox(height: 10),
+
+                Text(results.content.toString(),style: TextStyle(fontSize: 18)),
+                SizedBox(height: 10),
+
+                Text(results.url.toString(),style: TextStyle(fontSize: 18),)
+              ],
+            )
+          ),
+          IconButton(onPressed: (){
+            _launchUrl(_articles);
+          }, icon: Icon(Icons.code),),
+
+        ],
+      ),
+    );
+  }
+
+
+/// Build text AppBar ga qoyish uchun
+
+  Text buildText(Articles  results){
+    return Text(results.author.toString());
+  }
+/// Launcher icon web saytga o'tish uchun
+
+  void _launchUrl(Articles articles) async {
+    if (!await launchUrl(_url)) {
+      throw Text("Not found");
+    }
+  }
 }

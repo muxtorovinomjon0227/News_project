@@ -15,6 +15,7 @@ class CurrencyNewsPage extends StatefulWidget {
 }
 
 class _CurrencyNewsPageState extends State<CurrencyNewsPage> {
+
   @override
   Widget build(BuildContext context) {
     context.read<CurrencyNewsBloc>().add(FetchCurrencyNewsEvent());
@@ -61,6 +62,7 @@ class _CurrencyNewsPageState extends State<CurrencyNewsPage> {
                 width: double.infinity,
                 height: 150,
                  child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                    children: [
                      Row(
@@ -70,12 +72,13 @@ class _CurrencyNewsPageState extends State<CurrencyNewsPage> {
                            children: [
                              Image.asset(getFlags(result, index),height:45,width: 50),
                              SizedBox(width: 20),
-                             Text(result[index].title.toString()),
+                             Text(result[index].code.toString()),
                            ],
                          ),
                          Icon(Icons.add_alert,color: Colors.black26),
                        ],
                      ),
+                     Text(result[index].title.toString()),
                      Row(
                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                        children: [
@@ -93,8 +96,9 @@ class _CurrencyNewsPageState extends State<CurrencyNewsPage> {
                          ),
                          Column(
                            children: [
-                             Text("Sotish"),
-                             Text(result[index].cbPrice.toString())
+                             Text("Sotish",
+                             ),
+                             Text(((result[index].cbPrice)).toString())
                            ],
                          ),
 
@@ -116,5 +120,6 @@ class _CurrencyNewsPageState extends State<CurrencyNewsPage> {
           style: const TextStyle(fontSize: 24),
         ));
   }
+
 }
 

@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 class TeslaNewsMorePage extends StatelessWidget {
   final Articles _articles;
   int count = 0;
-  final Uri _url = Uri.parse("https://www.engadget.com/beats-fit-pro-studio-buds-airpods-sale-131544330.html");
+  final Uri _url = Uri.parse("https://www.reuters.com/technology/russian-users-sue-apple-after-payment-service-pulled-lawyers-2022-04-29/");
 
   TeslaNewsMorePage(this._articles, {Key? key}) : super(key: key);
 

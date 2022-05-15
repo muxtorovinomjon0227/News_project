@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_project/src/data/domain/singUpPages/login/login_page.dart';
 import 'package:news_project/src/data/repositores/currency_news_repo.dart';
+import 'package:news_project/src/data/repositores/image_repo.dart';
 import 'package:news_project/src/data/repositores/news_repo.dart';
 import 'package:news_project/src/presentation/blocs/currencyNewsBloc/currency_news_bloc.dart';
+import 'package:news_project/src/presentation/blocs/imagesBloc/images_bloc.dart';
 import 'package:news_project/src/presentation/blocs/news_bloc.dart';
 import 'package:news_project/src/ui/home_page.dart';
+import 'package:news_project/src/ui/pages/teslaNews/tesla_news_page.dart';
 
 
 void main() {
@@ -22,7 +26,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(fontFamily: "inter"),
+      theme: ThemeData(fontFamily: "inter",),
       home: MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -31,8 +35,11 @@ class _MyAppState extends State<MyApp> {
           BlocProvider(
             create: (_) => CurrencyNewsBloc(CurrencyNewsRepositoryImp()),
           ),
+          BlocProvider(
+            create: (_) => ImagesBloc(ImagesRepositoryImp()),
+          ),
         ],
-        child: const MainlyPage(),
+        child: const HomePage(),
 
         // Scaffold(
         //   body: Container(

@@ -1,27 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:news_project/src/ui/teslaNews/tesla_news_page.dart';
-
-import 'currencyNews/currncy_news_page.dart';
-import 'drawer/draver_page.dart';
+import 'package:news_project/src/ui/pages/currencyNews/currncy_news_page.dart';
+import 'package:news_project/src/ui/pages/images/new_images_page.dart';
+import 'package:news_project/src/ui/pages/teslaNews/tesla_news_page.dart';
 
 class MainlyPage extends StatefulWidget {
   const MainlyPage({Key? key}) : super(key: key);
 
   @override
   State<MainlyPage> createState() => _MainlyPageState();
+
 }
 
 class _MainlyPageState extends State<MainlyPage> {
+
+
   int currentIndex = 0;
   final screens = const [
     HomePage(),
     CurrencyNewsPage(),
-    Center(
-      child: Text(
-        "Day",
-        style: TextStyle(fontSize: 40),
-      ),
-    ),
+    NewImagePage(),
     Center(
       child: Text(
         "This",
@@ -30,25 +27,11 @@ class _MainlyPageState extends State<MainlyPage> {
     ),
   ];
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Drawer(
-        child: DrawerPage(),
-      ),
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.search),
-            iconSize: 35,
-          )
-        ],
-        iconTheme: Theme.of(context).iconTheme.copyWith(
-              color: Colors.white,
-            ),
-        title: Text("News App"),
-      ),
       body: screens[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -59,9 +42,10 @@ class _MainlyPageState extends State<MainlyPage> {
         showSelectedLabels: true,
         showUnselectedLabels: false,
         currentIndex: currentIndex,
-        onTap: (index) => setState(
-          () => currentIndex = index,
-        ),
+        onTap: (index) =>
+            setState(
+                  () => currentIndex = index,
+            ),
         items: const [
           BottomNavigationBarItem(
             backgroundColor: Colors.yellow,
@@ -80,9 +64,9 @@ class _MainlyPageState extends State<MainlyPage> {
           BottomNavigationBarItem(
             backgroundColor: Colors.yellow,
             icon: Icon(
-              Icons.apps_outlined,
+              Icons.image,
             ),
-            label: 'Menu',
+            label: 'Image',
           ),
           BottomNavigationBarItem(
             backgroundColor: Colors.yellow,
@@ -95,4 +79,6 @@ class _MainlyPageState extends State<MainlyPage> {
       ),
     );
   }
+
+
 }

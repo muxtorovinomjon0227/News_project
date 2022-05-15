@@ -17,7 +17,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
   NewsBloc(this.repository) : super(NewsInitialState()) {
     on<FetchTeslaNewsEvent>((event, emit) async {
       try {
-        TeslaNews results = (await repository.getTeslaNews());
+        TeslaNews results = (await repository.getTeslaNews(event.news));
         emit(NewsLodedState(results));
       } catch (e) {
         emit(NewsErrorState(e.toString()));

@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_project/src/data/models/tesla_news_model.dart';
 import 'package:news_project/src/presentation/blocs/news_bloc.dart';
-import 'package:news_project/src/ui/more_news/tesla_news_more_page.dart';
+
+import '../../drawer/draver_page.dart';
+import '../more_news/tesla_news_more_page.dart';
+import '../search/search_page.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -14,14 +17,50 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String newCity = "google";
+
 
   Articles _selectedArticlas = Articles();
 
+  void initState() {
+    super.initState();
+    context.read<NewsBloc>().add(FetchTeslaNewsEvent(newCity));
+  }
   @override
   Widget build(BuildContext context) {
-    context.read<NewsBloc>().add(FetchTeslaNewsEvent());
 
-    return Scaffold(
+    return RefreshIndicator(
+        displacement: 250,
+        backgroundColor: Colors.white,
+        color: Colors.black,
+        strokeWidth: 3,
+        triggerMode: RefreshIndicatorTriggerMode.onEdge,
+        onRefresh: () async {
+      fetchData();
+      await Future.delayed(Duration(microseconds: 1500));
+    },
+    child:Scaffold(
+        drawer: const Drawer(
+          child: DrawerPage(),
+        ),
+        appBar: AppBar(
+          actions: [
+            IconButton(
+              onPressed: () {
+                showSearch();
+              },
+              icon: Icon(Icons.search),
+              iconSize: 35,
+            )
+          ],
+          iconTheme: Theme
+              .of(context)
+              .iconTheme
+              .copyWith(
+            color: Colors.white,
+          ),
+          title: Text("News App"),
+        ),
         body: BlocConsumer<NewsBloc, NewsState>(
           listener: (context, state) {
             // Navigator.
@@ -43,7 +82,9 @@ class _HomePageState extends State<HomePage> {
               child: Text("Hatolik topilmadi"),
             );
           },
-        ));
+        )
+    ),
+    );
   }
 
   Widget buildLoading() {
@@ -152,5 +193,16 @@ class _HomePageState extends State<HomePage> {
       error,
       style: const TextStyle(fontSize: 24),
     ));
+  }
+  void showSearch() async {
+    newCity = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const SearchPage()),
+    );
+    fetchData();
+  }
+
+  void fetchData() {
+    context.read<NewsBloc>().add(FetchTeslaNewsEvent(newCity));
   }
 }
